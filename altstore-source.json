@@ -23,6 +23,15 @@
       },
       "versions": [
         {
+          "version": "1.2.0",
+          "buildVersion": "105",
+          "date": "2026-11-09T17:23:38Z",
+          "localizedDescription": "• Onboarding with animated guides for adding the widget",
+          "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.2.0-105.ipa",
+          "size": 1147643,
+          "minOSVersion": "17.0"
+        },
+        {
           "version": "1.1.1",
           "buildVersion": "104",
           "date": "2026-11-09T17:01:34Z",

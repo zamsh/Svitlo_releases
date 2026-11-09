@@ -23,6 +23,15 @@
       },
       "versions": [
         {
+          "version": "1.0.1",
+          "buildVersion": "102",
+          "date": "2026-11-09T16:33:25Z",
+          "localizedDescription": "• Use ASCII bundle display names so AltStore can register App IDs",
+          "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.0.1-102.ipa",
+          "size": 871615,
+          "minOSVersion": "17.0"
+        },
+        {
           "version": "1.0.0",
           "buildVersion": "101",
           "date": "2026-11-09T16:07:50Z",

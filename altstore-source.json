@@ -23,6 +23,15 @@
       },
       "versions": [
         {
+          "version": "1.1.0",
+          "buildVersion": "103",
+          "date": "2026-11-09T16:45:07Z",
+          "localizedDescription": "• Widget follows the queue chosen in the app; prompt to add the widget",
+          "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.1.0-103.ipa",
+          "size": 904581,
+          "minOSVersion": "17.0"
+        },
+        {
           "version": "1.0.1",
           "buildVersion": "102",
           "date": "2026-11-09T16:33:25Z",

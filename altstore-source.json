@@ -6,6 +6,33 @@
   "iconURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/icon.png",
   "website": "https://github.com/zamsh/Svitlo_releases",
   "tintColor": "#3366E6",
-  "apps": [],
+  "apps": [
+    {
+      "name": "Світло",
+      "bundleIdentifier": "ua.svitlo.app",
+      "developerName": "zamsh",
+      "subtitle": "Чи є світло і коли вимкнуть — Полтаваобленерго",
+      "localizedDescription": "Віджет і застосунок з графіком погодинних відключень Полтаваобленерго.\n\n• Чи є світло зараз у вашій підчерзі (1.1–6.2)\n• Коли вимкнуть або увімкнуть і скільки лишилось\n• Діаграма доби з часом вимкнень/увімкнень\n• Торкання віджета оновлює графік з poe.pl.ua\n\nМалий і середній віджет, а також віджет для екрана блокування.",
+      "iconURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/icon.png",
+      "tintColor": "#3366E6",
+      "category": "utilities",
+      "screenshots": [],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {}
+      },
+      "versions": [
+        {
+          "version": "1.0.0",
+          "buildVersion": "101",
+          "date": "2026-11-09T16:07:50Z",
+          "localizedDescription": "• AltStore distribution: unsigned IPA published to Svitlo_releases\n• Svitlo: iOS widget for Poltavaoblenergo outage schedule",
+          "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.0.0-101.ipa",
+          "size": 870713,
+          "minOSVersion": "17.0"
+        }
+      ]
+    }
+  ],
   "news": []
 }

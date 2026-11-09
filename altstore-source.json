@@ -23,6 +23,15 @@
       },
       "versions": [
         {
+          "version": "1.5.0",
+          "buildVersion": "111",
+          "date": "2026-11-09T20:16:41Z",
+          "localizedDescription": "• Tomorrow schedule: today/tomorrow switch in the widget and app\n• Local notifications 10 minutes before each power outage",
+          "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.5.0-111.ipa",
+          "size": 1391658,
+          "minOSVersion": "17.0"
+        },
+        {
           "version": "1.4.0",
           "buildVersion": "110",
           "date": "2026-11-09T19:19:07Z",
@@ -56,15 +65,6 @@
           "localizedDescription": "• Reliable \"add the widget\" hint and on-screen diagnostics",
           "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.1.1-104.ipa",
           "size": 918170,
-          "minOSVersion": "17.0"
-        },
-        {
-          "version": "1.1.0",
-          "buildVersion": "103",
-          "date": "2026-11-09T16:45:07Z",
-          "localizedDescription": "• Widget follows the queue chosen in the app; prompt to add the widget",
-          "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.1.0-103.ipa",
-          "size": 904581,
           "minOSVersion": "17.0"
         }
       ]

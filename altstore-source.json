@@ -23,6 +23,15 @@
       },
       "versions": [
         {
+          "version": "1.1.1",
+          "buildVersion": "104",
+          "date": "2026-11-09T17:01:34Z",
+          "localizedDescription": "• Reliable \"add the widget\" hint and on-screen diagnostics",
+          "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.1.1-104.ipa",
+          "size": 918170,
+          "minOSVersion": "17.0"
+        },
+        {
           "version": "1.1.0",
           "buildVersion": "103",
           "date": "2026-11-09T16:45:07Z",

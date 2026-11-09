@@ -1,0 +1,11 @@
+{
+  "name": "Світло",
+  "identifier": "io.github.zamsh.svitlo",
+  "subtitle": "Графік відключень Полтаваобленерго",
+  "description": "Збірки застосунку «Світло» з віджетом графіка відключень для AltStore / SideStore.",
+  "iconURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/icon.png",
+  "website": "https://github.com/zamsh/Svitlo_releases",
+  "tintColor": "#3366E6",
+  "apps": [],
+  "news": []
+}

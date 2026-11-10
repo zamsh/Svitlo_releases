@@ -23,8 +23,9 @@ permissions:
 
 jobs:
   index:
-    # PDFKit (macOS) is the only extractor that keeps this document's reading order.
-    runs-on: macos-15
+    # Self-hosted runner on a Mac in Ukraine: poe.pl.ua drops connections from GitHub-hosted runners,
+    # and PDFKit (macOS) is the only extractor that keeps this document's reading order.
+    runs-on: [self-hosted, macOS, svitlo-ua]
     steps:
       - uses: actions/checkout@v7
 

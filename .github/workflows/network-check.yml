@@ -1,0 +1,28 @@
+name: Network check (temporary)
+
+# Diagnoses whether www.poe.pl.ua is reachable from GitHub-hosted runners.
+on: workflow_dispatch
+
+jobs:
+  check:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Runner public IP
+        run: curl -s --max-time 10 https://api.ipify.org; echo
+      - name: DNS
+        run: python3 -c "import socket;print(socket.gethostbyname_ex('www.poe.pl.ua'))"
+      - name: TCP 443 to poe.pl.ua
+        run: python3 -c "import socket,time;t=time.time();s=socket.create_connection(('www.poe.pl.ua',443),timeout=15);print('connected in',round(time.time()-t,2),'s')" || true
+      - name: TCP 80 to poe.pl.ua
+        run: python3 -c "import socket,time;t=time.time();s=socket.create_connection(('www.poe.pl.ua',80),timeout=15);print('connected in',round(time.time()-t,2),'s')" || true
+      - name: HTTPS GPV page
+        run: curl -sS -o /dev/null --connect-timeout 15 --max-time 40 -w "http %{http_code} total %{time_total}s ip %{remote_ip}\n" https://www.poe.pl.ua/disconnection/hrafik-pohodynnoho-vidkliuchennia-elektroenerhii/ || true
+      - name: Control - other Ukrainian sites
+        run: |
+          for u in https://www.ukrenergo.energy/ https://diia.gov.ua/ https://www.google.com/; do
+            curl -sS -o /dev/null --connect-timeout 15 --max-time 30 -w "$u http %{http_code} total %{time_total}s\n" "$u" || echo "$u failed"
+          done

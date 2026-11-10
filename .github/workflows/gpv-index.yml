@@ -1,0 +1,86 @@
+name: GPV address index
+
+# Keeps gpv-index/index.json in sync with the Poltavaoblenergo GPV document (address -> sub-queue).
+# Daily: find the current PDF on poe.pl.ua; if it changed, rebuild, validate and commit the index.
+# If the document can't be found or parsed, the old index stays and one issue is opened with the report.
+on:
+  schedule:
+    - cron: "17 4 * * *"          # 06:17 / 07:17 Kyiv time
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Rebuild even if the document is unchanged"
+        type: boolean
+        default: false
+
+concurrency:
+  group: gpv-index
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  index:
+    # PDFKit (macOS) is the only extractor that keeps this document's reading order.
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Parser tests
+        run: python3 -m unittest discover -s gpv-index/tests
+
+      - name: Find and download the current document
+        id: source
+        run: |
+          URL=$(python3 gpv-index/tools/find_source.py)
+          curl -sSfL -A "Mozilla/5.0 (SvitloIndexBot)" "$URL" -o "$RUNNER_TEMP/gpv.pdf"
+          SHA=$(shasum -a 256 "$RUNNER_TEMP/gpv.pdf" | cut -d' ' -f1)
+          OLD=$(python3 -c 'import json;print(json.load(open("gpv-index/meta.json")).get("sha256",""))' 2>/dev/null || true)
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          if [ "$SHA" = "$OLD" ] && [ "${{ github.event.inputs.force }}" != "true" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Document unchanged: $URL"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "New document: $URL ($SHA)"
+          fi
+
+      - name: Build and validate
+        id: build
+        if: steps.source.outputs.changed == 'true'
+        run: |
+          python3 gpv-index/tools/build.py --pdf "$RUNNER_TEMP/gpv.pdf" --source-url "${{ steps.source.outputs.url }}" \
+            --out gpv-index --previous gpv-index/index.json --work "$RUNNER_TEMP/gpv-work"
+
+      - name: Commit the new index
+        if: steps.source.outputs.changed == 'true' && steps.build.outcome == 'success'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add gpv-index/index.json gpv-index/meta.json gpv-index/report.json
+          git diff --cached --quiet && { echo "Nothing to commit"; exit 0; }
+          git commit -m "GPV index: $(basename "${{ steps.source.outputs.url }}")"
+          # The AltStore release workflow also pushes to main.
+          for i in 1 2 3; do git pull --rebase -q && git push && break; sleep 5; done
+
+      - name: Open an issue when the index can't be updated
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="GPV index update failed"
+          gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number' | grep -q . && exit 0
+          {
+            echo "Source: ${{ steps.source.outputs.url || 'not found on the GPV page (layout changed?)' }}"
+            echo
+            echo "The previous index was kept. Report:"
+            echo '```json'
+            cat gpv-index/report.json 2>/dev/null || echo "no report (build crashed, see the run log)"
+            echo '```'
+            echo
+            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          } > "$RUNNER_TEMP/issue.md"
+          gh issue create --title "$TITLE" --body-file "$RUNNER_TEMP/issue.md"

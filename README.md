@@ -31,3 +31,4 @@ Without the source: download an `.ipa` from [`ipa/`](ipa) and open it in AltStor
 - `icon.png` — app icon
 - `gpv-index/` — Poltava address → sub-queue index for the apps (rebuilt daily from Poltavaoblenergo's PDF)
 - `roe-index/` — Rivne address → sub-queue index (rebuilt daily from Rivneoblenergo's two PDFs)
+- `khoe-index/` — Kharkiv region address → sub-queue index (rebuilt daily from Kharkivoblenergo's "Адреси та черги" PDF)

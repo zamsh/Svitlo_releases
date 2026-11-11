@@ -23,6 +23,15 @@
       },
       "versions": [
         {
+          "version": "1.8.1",
+          "buildVersion": "118",
+          "date": "2026-11-11T17:56:51Z",
+          "localizedDescription": "• Split the settings button and debug menu out of ContentView.body\n• Debug menu: widget refresh button and dial \"now\" marker variants",
+          "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.8.1-118.ipa",
+          "size": 2465118,
+          "minOSVersion": "17.0"
+        },
+        {
           "version": "1.8.0",
           "buildVersion": "116",
           "date": "2026-11-11T16:52:32Z",
@@ -56,15 +65,6 @@
           "localizedDescription": "• Tomorrow schedule: today/tomorrow switch in the widget and app\n• Local notifications 10 minutes before each power outage",
           "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.5.0-111.ipa",
           "size": 1391658,
-          "minOSVersion": "17.0"
-        },
-        {
-          "version": "1.4.0",
-          "buildVersion": "110",
-          "date": "2026-11-09T19:19:07Z",
-          "localizedDescription": "• Muted palette and a state-colored border around widgets and cards\n• Stronger state-tinted widget and card background",
-          "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.4.0-110.ipa",
-          "size": 1244595,
           "minOSVersion": "17.0"
         }
       ]

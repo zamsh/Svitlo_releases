@@ -1,0 +1,91 @@
+name: Rivne address index
+
+# Keeps roe-index/index.json in sync with Rivneoblenergo's GPV documents (city of Rivne and the region:
+# address -> sub-queue). Daily: find the current PDFs on roe.vsei.ua; if either changed, rebuild,
+# validate and commit the index. If the documents can't be found or parsed, the old index stays and
+# one issue is opened with the report.
+on:
+  schedule:
+    - cron: "37 4 * * *"          # 06:37 / 07:37 Kyiv time
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Rebuild even if the documents are unchanged"
+        type: boolean
+        default: false
+
+concurrency:
+  group: roe-index
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  index:
+    # Self-hosted runner on a Mac in Ukraine: PDFKit and CoreGraphics (macOS) read the table text and rules.
+    runs-on: [self-hosted, macOS, svitlo-ua]
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Parser tests
+        run: python3 -m unittest discover -s roe-index/tests
+
+      - name: Find and download the current documents
+        id: source
+        run: |
+          JSON=$(python3 roe-index/tools/find_source.py)
+          CITY=$(echo "$JSON" | python3 -c 'import json,sys;print(json.load(sys.stdin)["city"])')
+          REGION=$(echo "$JSON" | python3 -c 'import json,sys;print(json.load(sys.stdin)["region"])')
+          curl -sSfL -A "Mozilla/5.0 (SvitloIndexBot)" "$CITY" -o "$RUNNER_TEMP/city.pdf"
+          curl -sSfL -A "Mozilla/5.0 (SvitloIndexBot)" "$REGION" -o "$RUNNER_TEMP/region.pdf"
+          SHA="$(shasum -a 256 "$RUNNER_TEMP/city.pdf" | cut -d' ' -f1) $(shasum -a 256 "$RUNNER_TEMP/region.pdf" | cut -d' ' -f1)"
+          OLD=$(python3 -c 'import json;m=json.load(open("roe-index/meta.json"));print(m.get("city_sha256",""),m.get("sha256",""))' 2>/dev/null || true)
+          echo "city=$CITY" >> "$GITHUB_OUTPUT"
+          echo "region=$REGION" >> "$GITHUB_OUTPUT"
+          if [ "$SHA" = "$OLD" ] && [ "${{ github.event.inputs.force }}" != "true" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Documents unchanged"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "New documents: $CITY $REGION"
+          fi
+
+      - name: Build and validate
+        id: build
+        if: steps.source.outputs.changed == 'true'
+        run: |
+          python3 roe-index/tools/build.py --city-pdf "$RUNNER_TEMP/city.pdf" --region-pdf "$RUNNER_TEMP/region.pdf" \
+            --city-url "${{ steps.source.outputs.city }}" --region-url "${{ steps.source.outputs.region }}" \
+            --out roe-index --previous roe-index/index.json --work "$RUNNER_TEMP/roe-work"
+
+      - name: Commit the new index
+        if: steps.source.outputs.changed == 'true' && steps.build.outcome == 'success'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add roe-index/index.json roe-index/meta.json roe-index/report.json
+          git diff --cached --quiet && { echo "Nothing to commit"; exit 0; }
+          git commit -m "Rivne index: $(basename "${{ steps.source.outputs.region }}")"
+          # The AltStore release and GPV index workflows also push to main.
+          for i in 1 2 3; do git pull --rebase -q && git push && break; sleep 5; done
+
+      - name: Open an issue when the index can't be updated
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="Rivne index update failed"
+          gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number' | grep -q . && exit 0
+          {
+            echo "Sources: ${{ steps.source.outputs.city || 'not found' }} ${{ steps.source.outputs.region || '(page layout changed?)' }}"
+            echo
+            echo "The previous index was kept. Report:"
+            echo '```json'
+            cat roe-index/report.json 2>/dev/null || echo "no report (build crashed, see the run log)"
+            echo '```'
+            echo
+            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          } > "$RUNNER_TEMP/issue.md"
+          gh issue create --title "$TITLE" --body-file "$RUNNER_TEMP/issue.md"

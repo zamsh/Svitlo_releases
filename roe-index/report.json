@@ -1,0 +1,33 @@
+{
+ "meta": {
+  "url": "https://www.roe.vsei.ua/wp-content/uploads/2026/10/GPV_cherga_Rivnenska_oblast-1.pdf",
+  "city_url": "https://www.roe.vsei.ua/wp-content/uploads/2026/10/GPV_cherga_misto_Rivne-1.pdf",
+  "sha256": "43c072bba20c52458a8c389662622eb4d6c0caf3a884a82041a406a3ac9e13a9",
+  "city_sha256": "ca42eff547e76eaf3fcd5db0adb3862390e20b3d2198ea5ff1d1568a044754f1",
+  "valid_from": null,
+  "valid_to": null,
+  "generated_at": "2026-11-11T11:30:00+00:00"
+ },
+ "stats": {
+  "city_rows": 82,
+  "region_rows": 663,
+  "entries": 6001,
+  "rows_per_queue": {
+   "1.1": 65,
+   "1.2": 66,
+   "2.1": 53,
+   "2.2": 86,
+   "3.1": 59,
+   "3.2": 63,
+   "4.1": 69,
+   "4.2": 51,
+   "5.1": 67,
+   "5.2": 49,
+   "6.1": 60,
+   "6.2": 57
+  },
+  "rows_without_one_queue": 0,
+  "settlements": 935
+ },
+ "problems": []
+}

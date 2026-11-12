@@ -82,7 +82,7 @@ Push-сервери не використовуються.
 ## Зміни і контакти
 
 Про зміни цієї політики ми повідомлятимемо оновленням цієї сторінки. Питання надсилайте на
-[svitlo.support@example.com](mailto:svitlo.support@example.com).
+[svitlo.app@icloud.com](mailto:svitlo.app@icloud.com).
 
 ---
 
@@ -138,4 +138,4 @@ operator, DTEK, YASNO or government body. Schedules are taken from the operators
 operator's website is the official source.
 
 **Changes and contact.** Changes to this policy will be published on this page. Questions:
-[svitlo.support@example.com](mailto:svitlo.support@example.com).
+[svitlo.app@icloud.com](mailto:svitlo.app@icloud.com).

@@ -5,7 +5,7 @@
 
 ## Зв'язок
 
-Пишіть на [svitlo.support@example.com](mailto:svitlo.support@example.com) або натисніть
+Пишіть на [svitlo.app@icloud.com](mailto:svitlo.app@icloud.com) або натисніть
 **Налаштування → Написати відгук** у застосунку. Тоді версія застосунку, регіон і підчерга додадуться
 до листа самі.
 
@@ -47,7 +47,7 @@
 Svitlo shows the hourly power-outage schedule for your sub-queue, in a home screen widget and in the
 app, for 17 regions of Ukraine.
 
-**Contact:** [svitlo.support@example.com](mailto:svitlo.support@example.com), or **Settings → Send
+**Contact:** [svitlo.app@icloud.com](mailto:svitlo.app@icloud.com), or **Settings → Send
 feedback** in the app (it adds the app version, region and sub-queue for you).
 
 **Privacy:** [Privacy Policy](privacy.md)

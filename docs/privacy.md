@@ -41,7 +41,7 @@ Geocoder від Google на Android. Координати не зберігаю�
 
 ## Сповіщення
 
-Нагадування «через 10 хвилин відключення» та «змінився графік» плануються локально на пристрої.
+Нагадування «скоро відключення» та «змінився графік» плануються локально на пристрої.
 Push-сервери не використовуються.
 
 ## Відгуки
@@ -114,7 +114,7 @@ downloaded directory on the device. It is not kept after the search and is never
 fix and turns it into an address with the system service (Apple on iOS, Google's Geocoder on Android).
 Coordinates are not stored or sent to the developer. The app never uses background location.
 
-**Notifications** ("power off in 10 minutes", "schedule changed") are scheduled locally on the device. No
+**Notifications** ("power off soon", "schedule changed") are scheduled locally on the device. No
 push servers are involved.
 
 **Feedback.** "Send feedback" opens your mail app with a draft that includes the app version, device

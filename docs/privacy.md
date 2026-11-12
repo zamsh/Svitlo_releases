@@ -1,9 +1,10 @@
 # Світло — політика конфіденційності
 
-_Чинна з 12 листопада 2026 року. Стосується застосунків «Світло» для iOS і Android._
+_Чинна з 12 листопада 2026 року (оновлено: звіти про збої та статистика). Стосується застосунків «Світло» для iOS і Android._
 
-**Коротко:** застосунок не має облікових записів, реклами, аналітики чи сторонніх SDK і не збирає
-персональних даних. Усе, що ви налаштовуєте, зберігається тільки на вашому пристрої.
+**Коротко:** застосунок не має облікових записів і реклами й не збирає персональних даних. Щоб
+знаходити помилки, він надсилає знеособлені звіти про збої та статистику використання (Firebase від
+Google). Це можна вимкнути в налаштуваннях. Усе, що ви налаштовуєте, зберігається на вашому пристрої.
 
 ## Що зберігається на пристрої
 
@@ -50,6 +51,24 @@ Push-сервери не використовуються.
 розібратися з проблемою. Ви бачите цей текст і можете змінити його до надсилання. Листи
 використовуються тільки для відповіді вам і покращення застосунку.
 
+## Звіти про збої та статистика
+
+Застосунок використовує Firebase Crashlytics і Google Analytics for Firebase (Google LLC):
+
+- **звіти про збої та помилки:** стан застосунку в момент збою, модель пристрою, версія системи й
+  застосунку, обраний регіон і підчерга, а також помилки завантаження графіка (наприклад, «сайт
+  обленерго не відповідає»);
+- **статистика використання:** які функції відкривали (зміна регіону чи підчерги, вигляд діаграми,
+  пошук підчерги — лише чи знайдено результат, сповіщення), версія системи й застосунку, приблизна
+  країна за IP-адресою.
+
+Ми **не надсилаємо** адрес, координат, введеного тексту, рекламного ідентифікатора (IDFA / AAID) чи
+ідентифікатора постачальника (IDFV). Дані не пов'язані з вашою особою, не продаються й не
+використовуються для реклами чи відстеження. Firebase зберігає звіти про збої до 90 днів, а
+статистику — до 2 місяців.
+
+Вимкнути все це можна в застосунку: **Налаштування → Про застосунок → Анонімна статистика**.
+
 ## Діти
 
 Застосунок не призначений спеціально для дітей і свідомо не збирає їхніх даних.
@@ -71,7 +90,8 @@ Push-сервери не використовуються.
 
 _Effective 12 November 2026. Applies to the Svitlo apps for iOS and Android._
 
-**In short:** the app has no accounts, ads, analytics or third-party SDKs and collects no personal data.
+**In short:** the app has no accounts or ads and collects no personal data. To find bugs it sends
+anonymous crash reports and usage statistics (Google's Firebase), which you can turn off in Settings.
 Everything you set up stays on your device.
 
 **Stored on the device:** your region, sub-queue, chart style, notification and widget settings, and
@@ -100,6 +120,16 @@ push servers are involved.
 **Feedback.** "Send feedback" opens your mail app with a draft that includes the app version, device
 model, OS version, region and sub-queue. You can see and edit all of it before sending. Emails are used
 only to reply to you and improve the app.
+
+**Crash reports and statistics.** The app uses Firebase Crashlytics and Google Analytics for Firebase
+(Google LLC). Crash and error reports contain the app state at the crash, device model, OS and app
+version, the selected region and sub-queue, and schedule download errors. Usage statistics record
+which features were used (region or sub-queue change, chart style, sub-queue finder with only whether
+something was found, notifications), OS and app version and the approximate country from the IP
+address. We never send addresses, coordinates, typed text, the advertising ID (IDFA / AAID) or IDFV.
+The data is not linked to you, not sold and not used for ads or tracking. Firebase keeps crash reports
+for up to 90 days and statistics for up to 2 months. Turn it off in **Settings → Про застосунок →
+Анонімна статистика**.
 
 **Children.** The app is not directed at children and does not knowingly collect their data.
 

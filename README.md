@@ -29,6 +29,7 @@ Without the source: download an `.ipa` from [`ipa/`](ipa) and open it in AltStor
 - `altstore-source.json` — AltStore / SideStore source (updated automatically on every release)
 - `ipa/` — unsigned builds (last 5); AltStore signs them with your Apple ID
 - `icon.png` — app icon
+- `docs/` — [privacy policy](docs/privacy.md) and [support page](docs/support.md) linked from the apps and store listings
 - `gpv-index/` — Poltava address → sub-queue index for the apps (rebuilt daily from Poltavaoblenergo's PDF)
 - `roe-index/` — Rivne address → sub-queue index (rebuilt daily from Rivneoblenergo's two PDFs)
 - `khoe-index/` — Kharkiv region address → sub-queue index (rebuilt daily from Kharkivoblenergo's "Адреси та черги" PDF)

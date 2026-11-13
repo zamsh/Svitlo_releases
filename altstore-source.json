@@ -23,6 +23,15 @@
       },
       "versions": [
         {
+          "version": "1.12.0",
+          "buildVersion": "124",
+          "date": "2026-11-13T22:47:49Z",
+          "localizedDescription": "• Splash only on the first launch; async-safe lock in rescheduling\n• Fix the audit's bugs and performance findings, cover them with tests\n• Tests and audit: core schedule, parsers' robustness, storage, performance\n• App Store product page header (iOS 27 creative asset)\n• Store screenshots: re-shoot with the «Черга» name\n• Rename the app to «Черга» in everything users see\n• Link privacy and support pages on GitHub Pages\n• Update App Store listing for the store release\n• Build TestFlight uploads with Xcode 26\n• CI: signed App Store build and TestFlight upload\n• Tip jar via in-app purchase (hidden)\n• Fix removing the active place re-adding it as a copy of the first\n• Share card: app icon, name and where to get it",
+          "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.12.0-124.ipa",
+          "size": 3610075,
+          "minOSVersion": "17.0"
+        },
+        {
           "version": "1.11.0",
           "buildVersion": "123",
           "date": "2026-11-13T13:16:52Z",
@@ -56,15 +65,6 @@
           "localizedDescription": "• Split the settings button and debug menu out of ContentView.body\n• Debug menu: widget refresh button and dial \"now\" marker variants",
           "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.8.1-118.ipa",
           "size": 2465118,
-          "minOSVersion": "17.0"
-        },
-        {
-          "version": "1.8.0",
-          "buildVersion": "116",
-          "date": "2026-11-11T16:52:32Z",
-          "localizedDescription": "• Tests: drop @testable import Svitlo (the test target compiles Shared itself)\n• Refresh fixes, widget opens the app, steady day switch, Kyiv groups\n• PowerOn: ask again past a cached HTML answer\n• Ternopil region; Rivne and Zaporizhzhia address lookup\n• Fail the region health check when its build fails\n• Show the picked house in the address finder field\n• Drop a temporary test from the Xcode project\n• Address finder: Khmelnytskyi (autocomplete chain + /shutdown-queues)\n• Address finder: Chernivtsi (district directory pages)\n• Address finder: Odesa (DTEK site streets + getHomeNum)\n• Address finder: Zhytomyr (РЕМ → settlement → street form)\n• Address finder: Kirovohrad (ОТГ → settlement → street → house)\n• Address finder: Ivano-Frankivsk (free-text search)\n• Address finder: Mykolaiv (off.energy.mk.ua address chain)\n• Address finder: Lviv (PowerOn directory); same-name streets told apart by type\n• Address finder for directory regions; Kyiv and Dnipro via YASNO\n• Say why a day has no data instead of \"no outages\"\n• Widget: queue options follow the selected region\n• Daily health check of every region's schedule source\n• Regions: Khmelnytskyi (schedule text on hoe.com.ua)",
-          "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.8.0-116.ipa",
-          "size": 2434736,
           "minOSVersion": "17.0"
         }
       ]

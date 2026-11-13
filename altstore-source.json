@@ -23,6 +23,15 @@
       },
       "versions": [
         {
+          "version": "1.10.2",
+          "buildVersion": "122",
+          "date": "2026-11-13T11:31:44Z",
+          "localizedDescription": "• Split ContentView.body further for Xcode 16.4",
+          "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.10.2-122.ipa",
+          "size": 3528087,
+          "minOSVersion": "17.0"
+        },
+        {
           "version": "1.9.0",
           "buildVersion": "119",
           "date": "2026-11-12T11:11:50Z",
@@ -56,15 +65,6 @@
           "localizedDescription": "• Split the street-name match so Xcode 16 type-checks it in time\n• Redesign: bead \"now\" marker, house icon, animated splash, status backdrop\n• Find the queue by address or location\n• Show stale data and the reason a refresh failed",
           "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.7.0-114.ipa",
           "size": 1728694,
-          "minOSVersion": "17.0"
-        },
-        {
-          "version": "1.6.0",
-          "buildVersion": "112",
-          "date": "2026-11-10T11:46:33Z",
-          "localizedDescription": "• Notify when the schedule changes; run parser tests in CI\n• Add launch screen; make bundle IDs overridable for Xcode installs",
-          "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.6.0-112.ipa",
-          "size": 1448043,
           "minOSVersion": "17.0"
         }
       ]

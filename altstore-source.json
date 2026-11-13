@@ -23,6 +23,15 @@
       },
       "versions": [
         {
+          "version": "1.11.0",
+          "buildVersion": "123",
+          "date": "2026-11-13T13:16:52Z",
+          "localizedDescription": "• Developer sheet: link the public CV\n• Settings: contact the developer",
+          "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.11.0-123.ipa",
+          "size": 3538127,
+          "minOSVersion": "17.0"
+        },
+        {
           "version": "1.10.2",
           "buildVersion": "122",
           "date": "2026-11-13T11:31:44Z",
@@ -56,15 +65,6 @@
           "localizedDescription": "• Tests: drop @testable import Svitlo (the test target compiles Shared itself)\n• Refresh fixes, widget opens the app, steady day switch, Kyiv groups\n• PowerOn: ask again past a cached HTML answer\n• Ternopil region; Rivne and Zaporizhzhia address lookup\n• Fail the region health check when its build fails\n• Show the picked house in the address finder field\n• Drop a temporary test from the Xcode project\n• Address finder: Khmelnytskyi (autocomplete chain + /shutdown-queues)\n• Address finder: Chernivtsi (district directory pages)\n• Address finder: Odesa (DTEK site streets + getHomeNum)\n• Address finder: Zhytomyr (РЕМ → settlement → street form)\n• Address finder: Kirovohrad (ОТГ → settlement → street → house)\n• Address finder: Ivano-Frankivsk (free-text search)\n• Address finder: Mykolaiv (off.energy.mk.ua address chain)\n• Address finder: Lviv (PowerOn directory); same-name streets told apart by type\n• Address finder for directory regions; Kyiv and Dnipro via YASNO\n• Say why a day has no data instead of \"no outages\"\n• Widget: queue options follow the selected region\n• Daily health check of every region's schedule source\n• Regions: Khmelnytskyi (schedule text on hoe.com.ua)",
           "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.8.0-116.ipa",
           "size": 2434736,
-          "minOSVersion": "17.0"
-        },
-        {
-          "version": "1.7.0",
-          "buildVersion": "114",
-          "date": "2026-11-10T15:43:28Z",
-          "localizedDescription": "• Split the street-name match so Xcode 16 type-checks it in time\n• Redesign: bead \"now\" marker, house icon, animated splash, status backdrop\n• Find the queue by address or location\n• Show stale data and the reason a refresh failed",
-          "downloadURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/ipa/Svitlo-1.7.0-114.ipa",
-          "size": 1728694,
           "minOSVersion": "17.0"
         }
       ]

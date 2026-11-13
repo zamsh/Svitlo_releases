@@ -15,7 +15,7 @@ This repository only holds ready-made builds (`ipa/`) and the AltStore source. S
    ```
    https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/altstore-source.json
    ```
-3. Find "Світло" and tap **Free / Install**.
+3. Find "Черга" and tap **Free / Install**.
 4. Open the app — it walks you through choosing your sub-queue and adding the widget.
 
 **Updates** show up in the **Updates** tab — tap **Update**.

@@ -1,14 +1,14 @@
 {
-  "name": "Світло",
+  "name": "Черга",
   "identifier": "io.github.zamsh.svitlo",
   "subtitle": "Графік відключень Полтаваобленерго",
-  "description": "Збірки застосунку «Світло» з віджетом графіка відключень для AltStore / SideStore.",
+  "description": "Збірки застосунку «Черга» з віджетом графіка відключень для AltStore / SideStore.",
   "iconURL": "https://raw.githubusercontent.com/zamsh/Svitlo_releases/main/icon.png",
   "website": "https://github.com/zamsh/Svitlo_releases",
   "tintColor": "#3366E6",
   "apps": [
     {
-      "name": "Світло",
+      "name": "Черга",
       "bundleIdentifier": "ua.svitlo.app",
       "developerName": "zamsh",
       "subtitle": "Чи є світло і коли вимкнуть — Полтаваобленерго",

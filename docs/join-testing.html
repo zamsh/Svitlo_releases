@@ -1,0 +1,139 @@
+<title>Тестування «Світла»</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: one narrow reading column; numbered steps because the order matters (group → opt-in → install). */
+:root {
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --fg: #1b2140;
+  --muted: #5a6182;
+  --line: #dfe2ee;
+  --navy: #26305e;
+  --amber: #e2a72e;
+  --amber-ink: #8a5b00;
+  --amber-soft: #fbf1da;
+  --font-display: "Unbounded", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11152a; --card: #1a2040; --fg: #eef0fa; --muted: #a7add0; --line: #2d3560;
+    --navy: #aab4f0; --amber: #f0bd52; --amber-ink: #f6cf7c; --amber-soft: #2e2a1c; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11152a; --card: #1a2040; --fg: #eef0fa; --muted: #a7add0; --line: #2d3560;
+  --navy: #aab4f0; --amber: #f0bd52; --amber-ink: #f6cf7c; --amber-soft: #2e2a1c; color-scheme: dark;
+}
+body {
+  background: var(--bg); color: var(--fg); font: 16px/1.6 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 56px;
+}
+main { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+header { display: flex; flex-direction: column; gap: 10px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.mark { width: 44px; height: 44px; border-radius: 12px; background: #26305e; display: grid; place-items: center; flex: none; }
+h1 { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; line-height: 1.2; margin: 0; text-wrap: balance; }
+.lead { color: var(--muted); margin: 0; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.facts li { background: var(--amber-soft); color: var(--amber-ink); border-radius: 999px; padding: 4px 12px; font-size: 0.875rem; font-weight: 500; }
+ol.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; counter-reset: step; }
+ol.steps > li { counter-increment: step; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 4px 14px; }
+ol.steps > li::before { content: counter(step); grid-row: span 3; width: 36px; height: 36px; border-radius: 50%; background: var(--navy); color: var(--bg); font-family: var(--font-display); font-weight: 700; display: grid; place-items: center; font-size: 1rem; }
+h2 { font-family: var(--font-display); font-weight: 500; font-size: 1.05rem; line-height: 1.35; margin: 4px 0 0; }
+.steps p { margin: 0; color: var(--muted); }
+.link-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+a.btn { display: inline-flex; align-items: center; gap: 6px; background: var(--amber); color: #2a1d00; text-decoration: none; font-weight: 600; padding: 9px 16px; border-radius: 10px; }
+a.btn:focus-visible, button:focus-visible { outline: 3px solid var(--navy); outline-offset: 2px; }
+code.url { font: 0.8rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--muted); word-break: break-all; }
+button.copy { font: inherit; font-size: 0.85rem; background: transparent; color: var(--navy); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+section.note { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; }
+section.note h2 { margin: 0; }
+section.note ul { margin: 0; padding-left: 20px; color: var(--muted); display: flex; flex-direction: column; gap: 6px; }
+.mail { font-weight: 600; color: var(--fg); user-select: all; }
+footer { color: var(--muted); font-size: 0.875rem; text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<main>
+  <header>
+    <div class="brand">
+      <div class="mark" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 26 26"><path d="M3 12 13 4l10 8v10H3z" fill="#5a67b0"/><rect x="9.5" y="13" width="7" height="6" rx="1" fill="#f0bd52"/><path d="M13 13v6M9.5 16h7" stroke="#26305e" stroke-width="1"/></svg>
+      </div>
+      <h1>Тестування «Світла» в Google Play</h1>
+    </div>
+    <p class="lead">«Світло — графік відключень» показує, коли вимкнуть і увімкнуть світло у вашій підчерзі, і має віджет для головного екрана. Щоб застосунок вийшов у Google Play для всіх, Google вимагає закрите тестування: щонайменше 12 людей мають тримати його на телефоні 14 днів. Дякую, що допомагаєте!</p>
+    <ul class="facts">
+      <li>Тільки Android</li>
+      <li>Безкоштовно</li>
+      <li>5 хвилин на налаштування</li>
+      <li>Тримати 14 днів</li>
+    </ul>
+  </header>
+
+  <ol class="steps">
+    <li>
+      <h2>Приєднайтеся до групи тестувальників</h2>
+      <p>Відкрийте сторінку групи й натисніть «Приєднатися до групи». Увійдіть тим самим акаунтом Google, що й у Play Маркеті на телефоні, інакше Google не дасть встановити тестову версію.</p>
+      <div class="link-row">
+        <a class="btn" href="https://groups.google.com/g/svitlo-qa">Група svitlo-qa</a>
+        <button class="copy" type="button" data-copy="https://groups.google.com/g/svitlo-qa" id="copy-group">Копіювати посилання</button>
+      </div>
+    </li>
+    <li>
+      <h2>Станьте тестувальником</h2>
+      <p>Відкрийте сторінку тестування й натисніть «Стати тестувальником». Якщо бачите повідомлення, що застосунок недоступний, зачекайте кілька хвилин після кроку 1 і оновіть сторінку.</p>
+      <div class="link-row">
+        <a class="btn" href="https://play.google.com/apps/testing/io.github.zamsh.svitlo">Сторінка тестування</a>
+        <button class="copy" type="button" data-copy="https://play.google.com/apps/testing/io.github.zamsh.svitlo" id="copy-optin">Копіювати посилання</button>
+      </div>
+    </li>
+    <li>
+      <h2>Встановіть застосунок</h2>
+      <p>На сторінці тестування з’явиться посилання на Google Play. Або відкрийте його звідси на телефоні й натисніть «Встановити».</p>
+      <div class="link-row">
+        <a class="btn" href="https://play.google.com/store/apps/details?id=io.github.zamsh.svitlo">Світло в Google Play</a>
+        <button class="copy" type="button" data-copy="https://play.google.com/store/apps/details?id=io.github.zamsh.svitlo" id="copy-store">Копіювати посилання</button>
+      </div>
+    </li>
+    <li>
+      <h2>Налаштуйте й додайте віджет</h2>
+      <p>Відкрийте застосунок, оберіть свою область і підчергу (якщо не знаєте її, знайдіть за адресою). Потім утримуйте палець на порожньому місці головного екрана → «Віджети» → «Світло» і перетягніть віджет на екран.</p>
+    </li>
+    <li>
+      <h2>Не видаляйте 14 днів</h2>
+      <p>Залиште застосунок на телефоні щонайменше на 14 днів і час від часу відкривайте його. Оновлення приходитимуть через Google Play як звичайні.</p>
+    </li>
+  </ol>
+
+  <section class="note">
+    <h2>Якщо щось не так</h2>
+    <ul>
+      <li>«Застосунок не знайдено» в Google Play: перевірте, що в Play Маркеті вибрано той самий акаунт, яким ви приєдналися до групи.</li>
+      <li>Кілька акаунтів на телефоні: перемкніть акаунт у Play Маркеті (аватар угорі праворуч) і відкрийте посилання з кроку 3 ще раз.</li>
+      <li>Помітили помилку чи маєте ідею: напишіть на <span class="mail">svitlo.app@icloud.com</span> або залиште відгук на сторінці застосунку в Google Play (для тестувальників він приватний, бачу тільки я).</li>
+    </ul>
+  </section>
+
+  <footer>Світло · закрите тестування Google Play</footer>
+</main>
+
+<script>
+document.querySelectorAll('button.copy').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var text = b.getAttribute('data-copy');
+    var done = function () { var o = b.textContent; b.textContent = 'Скопійовано'; setTimeout(function () { b.textContent = o; }, 1500); };
+    var fallback = function () {
+      var code = document.createElement('code'); code.className = 'url'; code.textContent = text;
+      if (!b.nextElementSibling || !b.nextElementSibling.classList.contains('url')) b.after(code);
+      var r = document.createRange(); r.selectNodeContents(code);
+      var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+  });
+});
+</script>

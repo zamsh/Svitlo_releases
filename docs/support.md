@@ -42,9 +42,9 @@
 
 ---
 
-# Svitlo — Support
+# Cherha («Черга») — Support
 
-Svitlo shows the hourly power-outage schedule for your sub-queue, in a home screen widget and in the
+Cherha shows the hourly power-outage schedule for your sub-queue, in a home screen widget and in the
 app, for 17 regions of Ukraine.
 
 **Contact:** [svitlo.app@icloud.com](mailto:svitlo.app@icloud.com), or **Settings → Send
@@ -52,4 +52,4 @@ feedback** in the app (it adds the app version, region and sub-queue for you).
 
 **Privacy:** [Privacy Policy](privacy.md)
 
-Svitlo is independent and is not affiliated with any grid operator, DTEK, YASNO or government body.
+Cherha is independent and is not affiliated with any grid operator, DTEK, YASNO or government body.

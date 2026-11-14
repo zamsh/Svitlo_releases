@@ -86,9 +86,9 @@ Push-сервери не використовуються.
 
 ---
 
-# Svitlo — Privacy Policy
+# Cherha («Черга») — Privacy Policy
 
-_Effective 12 November 2026. Applies to the Svitlo apps for iOS and Android._
+_Effective 12 November 2026. Applies to the Cherha («Черга») apps for iOS and Android._
 
 **In short:** the app has no accounts or ads and collects no personal data. To find bugs it sends
 anonymous crash reports and usage statistics (Google's Firebase), which you can turn off in Settings.
@@ -133,7 +133,7 @@ for up to 90 days and statistics for up to 2 months. Turn it off in **Settings �
 
 **Children.** The app is not directed at children and does not knowingly collect their data.
 
-**Data sources.** Svitlo is independent. It is not affiliated with, endorsed by or representing any grid
+**Data sources.** Cherha is independent. It is not affiliated with, endorsed by or representing any grid
 operator, DTEK, YASNO or government body. Schedules are taken from the operators' public websites. Your
 operator's website is the official source.
 

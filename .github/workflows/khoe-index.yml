@@ -62,7 +62,7 @@ jobs:
           git add khoe-index/index.json khoe-index/meta.json khoe-index/report.json
           git diff --cached --quiet && { echo "Nothing to commit"; exit 0; }
           git commit -m "Kharkiv index: $(python3 -c 'import sys,urllib.parse,os;print(os.path.basename(urllib.parse.unquote(sys.argv[1])))' "${{ steps.source.outputs.url }}")"
-          # The AltStore release and the other index workflows also push to main.
+          # The other index workflows also push to main.
           for i in 1 2 3; do git pull --rebase -q && git push && break; sleep 5; done
 
       - name: Open an issue when the index can't be updated

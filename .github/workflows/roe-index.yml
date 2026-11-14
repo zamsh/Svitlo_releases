@@ -68,7 +68,7 @@ jobs:
           git add roe-index/index.json roe-index/meta.json roe-index/report.json
           git diff --cached --quiet && { echo "Nothing to commit"; exit 0; }
           git commit -m "Rivne index: $(basename "${{ steps.source.outputs.region }}")"
-          # The AltStore release and GPV index workflows also push to main.
+          # The other index workflows also push to main.
           for i in 1 2 3; do git pull --rebase -q && git push && break; sleep 5; done
 
       - name: Open an issue when the index can't be updated

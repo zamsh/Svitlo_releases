@@ -64,7 +64,7 @@ jobs:
           git add gpv-index/index.json gpv-index/meta.json gpv-index/report.json
           git diff --cached --quiet && { echo "Nothing to commit"; exit 0; }
           git commit -m "GPV index: $(basename "${{ steps.source.outputs.url }}")"
-          # The AltStore release workflow also pushes to main.
+          # The other index workflows also push to main.
           for i in 1 2 3; do git pull --rebase -q && git push && break; sleep 5; done
 
       - name: Open an issue when the index can't be updated

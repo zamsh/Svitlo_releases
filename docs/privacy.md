@@ -42,7 +42,13 @@ Geocoder від Google на Android. Координати не зберігаю�
 ## Сповіщення
 
 Нагадування «скоро відключення» та «змінився графік» плануються локально на пристрої.
-Push-сервери не використовуються.
+
+Щоб графік і сповіщення оновлювалися одразу, коли оператор щось змінив, наш сервер кожні кілька хвилин
+перевіряє сайти операторів і надсилає push через Firebase Cloud Messaging (Google). Застосунок
+підписується лише на теми регіонів ваших місць (наприклад, «Київ»), тож сервер не знає ні адреси,
+ні підчерги, ні хто ви: тільки скільки пристроїв стежать за регіоном. Push каже «графік регіону
+змінився» або «діють аварійні відключення», а що саме змінилося для вашої підчерги, застосунок
+перевіряє сам. Firebase зберігає технічний ідентифікатор пристрою для доставки push.
 
 ## Відгуки
 
@@ -114,8 +120,13 @@ downloaded directory on the device. It is not kept after the search and is never
 fix and turns it into an address with the system service (Apple on iOS, Google's Geocoder on Android).
 Coordinates are not stored or sent to the developer. The app never uses background location.
 
-**Notifications** ("power off soon", "schedule changed") are scheduled locally on the device. No
-push servers are involved.
+**Notifications** ("power off soon", "schedule changed") are scheduled locally on the device. To refresh
+the schedule as soon as an operator changes it, our server checks the operators' sites every few minutes
+and sends a push through Firebase Cloud Messaging (Google). The app subscribes only to the topics of its
+places' regions (e.g. "Kyiv"), so the server knows no address, sub-queue or identity, only how many
+devices follow a region. A push says "the region's schedule changed" or "emergency outages are on"; the
+app itself checks what that means for your sub-queue. Firebase keeps a technical device identifier to
+deliver pushes.
 
 **Feedback.** "Send feedback" opens your mail app with a draft that includes the app version, device
 model, OS version, region and sub-queue. You can see and edit all of it before sending. Emails are used

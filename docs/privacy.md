@@ -50,6 +50,12 @@ Geocoder від Google на Android. Координати не зберігаю�
 змінився» або «діють аварійні відключення», а що саме змінилося для вашої підчерги, застосунок
 перевіряє сам. Firebase зберігає технічний ідентифікатор пристрою для доставки push.
 
+Сайти деяких операторів наш сервер прочитати не може. Для таких регіонів застосунок, помітивши під час
+звичайного оновлення, що графік змінився, повідомляє про це серверу: надсилає лише назву регіону та
+контрольну суму (хеш) графіка, без адреси, підчерги чи ідентифікатора пристрою. Сервер, як і будь-який
+вебсервер, бачить при цьому IP-адресу пристрою, але не записує й не зберігає її. Після такого
+повідомлення інші пристрої регіону отримують push і самі завантажують графік з сайту оператора.
+
 ## Відгуки
 
 Якщо ви натискаєте «Написати відгук», відкривається ваша поштова програма з листом. До листа
@@ -126,7 +132,11 @@ and sends a push through Firebase Cloud Messaging (Google). The app subscribes o
 places' regions (e.g. "Kyiv"), so the server knows no address, sub-queue or identity, only how many
 devices follow a region. A push says "the region's schedule changed" or "emergency outages are on"; the
 app itself checks what that means for your sub-queue. Firebase keeps a technical device identifier to
-deliver pushes.
+deliver pushes. Some operators' sites can't be read by our server; for those regions, when the app's own
+refresh sees the schedule change, it tells the server the region name and a checksum (hash) of the
+schedule, with no address, sub-queue or device identifier. Like any web server, it sees the device's IP
+address with that request, but doesn't log or keep it. Other devices in the region then get a push and
+fetch the schedule from the operator's site themselves.
 
 **Feedback.** "Send feedback" opens your mail app with a draft that includes the app version, device
 model, OS version, region and sub-queue. You can see and edit all of it before sending. Emails are used

@@ -84,13 +84,64 @@ class LookupTests(unittest.TestCase):
 
 
 class SourceTests(unittest.TestCase):
-    def test_find(self):
-        listing = {"data": [
-            {"attributes": {"filename": "Адреси та черги 26-27.docx", "filemime": "application/msword", "uri": {"url": "/a.docx"}}},
-            {"attributes": {"filename": "Адреси та черги 26-27.pdf", "filemime": "application/pdf", "uri": {"url": "/sites/default/files/pdf/x.pdf"}}},
-        ]}
-        self.assertEqual(find_source.find(listing), "https://oblenergo.kharkiv.ua/sites/default/files/pdf/x.pdf")
-        self.assertIsNone(find_source.find({"data": []}))
+    """find_source against saved pages of t.me/s/kharkivenergy (2026-11-20: posts 2371–2390 and the page before)."""
+    PDF = ("https://oblenergo.kharkiv.ua/sites/default/files/pdf/"
+           "%D0%90%D0%B4%D1%80%D0%B5%D1%81%D0%B8%20%D1%82%D0%B0%20%D1%87%D0%B5%D1%80%D0%B3%D0%B8%2026-27.pdf")
+
+    @staticmethod
+    def page(name):
+        with open(os.path.join(HERE, "fixtures", name), encoding="utf-8") as f:
+            return f.read()
+
+    def run_main(self, pages, meta_url=PDF):
+        """main() with fetch() answering from `pages` (url -> html or exception); returns (code, stdout json)."""
+        import io, tempfile, contextlib
+        def fake(url):
+            r = pages[url]
+            if isinstance(r, Exception):
+                raise r
+            return r
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as m:
+            json.dump({"url": meta_url}, m)
+        out, err, orig = io.StringIO(), io.StringIO(), find_source.fetch
+        find_source.fetch = fake
+        try:
+            with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+                code = find_source.main(["--meta", m.name])
+        finally:
+            find_source.fetch = orig
+            os.unlink(m.name)
+        return code, (json.loads(out.getvalue()) if out.getvalue() else None)
+
+    def test_link_from_channel(self):
+        url, oldest = find_source.find(self.page("kharkiv-telegram-2026-11-20.html"))
+        self.assertEqual(url, self.PDF)
+        self.assertEqual(oldest, 2371)
+        self.assertEqual(find_source.find(self.page("kharkiv-telegram-2026-11-20-before-2371.html"))[0], self.PDF)
+
+    def test_newest_post_wins(self):
+        page = ('<div data-post="kharkivenergy/10">Перелік адрес за чергами - <a href="https://x/old.pdf">тут</a></div>'
+                '<div data-post="kharkivenergy/11">Перелік адрес за чергами - <a href="https://x/new%2027-28.pdf">тут</a></div>'
+                '<div data-post="kharkivenergy/12">Перелік адрес — <a href="https://t.me/x">не PDF</a></div>'
+                '<div data-post="kharkivenergy/13"><a href="https://x/other.pdf">без підпису</a></div>')
+        self.assertEqual(find_source.find(page), ("https://x/new%2027-28.pdf", 10))
+        self.assertEqual(find_source.find("<html>Loading...</html>"), (None, None))
+
+    def test_same_document(self):
+        self.assertTrue(find_source.same_document(self.PDF, find_source.urllib.parse.unquote(self.PDF)))
+        self.assertFalse(find_source.same_document(self.PDF, self.PDF.replace("26-27", "27-28")))
+        self.assertFalse(find_source.same_document(self.PDF, None))
+
+    def test_main(self):
+        first, before = self.page("kharkiv-telegram-2026-11-20.html"), self.page("kharkiv-telegram-2026-11-20-before-2371.html")
+        ch = find_source.CHANNEL
+        self.assertEqual(self.run_main({ch: first}), (0, {"url": self.PDF, "new": False}))
+        self.assertEqual(self.run_main({ch: first}, meta_url="https://x/old.pdf"), (0, {"url": self.PDF, "new": True}))
+        # No such post on the first page: one older page is read.
+        no_link = find_source.MARKER.sub("Графік", first)
+        self.assertEqual(self.run_main({ch: no_link, ch + "?before=2371": before}), (0, {"url": self.PDF, "new": False}))
+        self.assertEqual(self.run_main({ch: no_link, ch + "?before=2371": no_link})[0], 2)
+        self.assertEqual(self.run_main({ch: find_source.urllib.error.URLError("timed out")})[0], 3)
 
 
 if __name__ == "__main__":

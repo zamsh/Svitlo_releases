@@ -1,8 +1,7 @@
 # Kharkiv address index
 
 Address → outage sub-queue index for the Svitlo apps, built from Kharkivoblenergo's
-"Адреси та черги" PDF (`Адреси та черги 26-27.pdf` for the 2026–27 season), found through the site's
-file API on https://oblenergo.kharkiv.ua.
+"Адреси та черги" PDF (`Адреси та черги 26-27.pdf` for the 2026–27 season) on https://oblenergo.kharkiv.ua.
 
 The document is one table: `addresses | 1 черга (І, ІІ) | … | 6 черга (І, ІІ)`, with an "X" in the
 row's sub-queue column ("1 черга, ІІ" = 1.2). The operator has no address search, so the apps look the
@@ -21,15 +20,22 @@ address up in this index on the device. Nothing is sent anywhere. The format is 
    Districts ("Валківський р-н") are taken out of the text that is parsed.
 4. `tools/build.py` — entries, validation, `index.json`, `meta.json`, `report.json`. Bands of the same
    sub-queue that continue a cell are merged; enterprises without a settlement are left out.
-5. `tools/find_source.py` — the current document's link.
+5. `tools/find_source.py` — the current document's link, read from the operator's Telegram channel
+   (https://t.me/s/kharkivenergy): every evening outage-schedule post ends with "Перелік адрес за чергами — тут"
+   linking the PDF. Prints `{"url", "new"}`, `new` = the link differs from `meta.json`.
 
 ```
 python3 khoe-index/tools/build.py --pdf DOC.pdf --url URL --out khoe-index --previous khoe-index/index.json --work TMP
 python3 -m unittest discover -s khoe-index/tests
 ```
 
-`.github/workflows/khoe-index.yml` runs this daily on the self-hosted Mac runner (`svitlo-ua`) and commits
-the index when the document changes; a failure keeps the old index and opens one issue.
+Since 2026-11 the site is behind a Cloudflare check (403 for the PDF too) and its file API is off, so the
+index is rebuilt by hand: download the PDF in a browser, run `build.py` with `--pdf` pointing at it and
+`--url` set to the link from the channel, commit `index.json`, `meta.json` and `report.json`.
+
+`.github/workflows/khoe-index.yml` runs daily on the self-hosted Mac runner (`svitlo-ua`): parser tests and
+`find_source.py`. A new link opens one issue «Kharkiv: download the new address PDF manually» with the
+command above; the same link or no answer from the channel leaves the run green.
 
 ## index.json
 

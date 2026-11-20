@@ -18,6 +18,6 @@ This repository holds what the apps and the store listings link to:
   document and the addresses parsed from them), `meta.json` (source document, its hash and validity),
   `report.json` (validation report of the last build)
 
-The indexes are built elsewhere and committed here; nothing in this repo runs. Until version 1.12.0 the iOS app was also sideloaded
-through AltStore from this repository; that channel is closed and its builds are removed (they stay in git
-history).
+The indexes are built in a private repo and committed here; this repo has no workflows of its own. Until
+version 1.12.0 the iOS app was also sideloaded through AltStore from this repository; that channel is closed
+and its builds are removed (they stay in git history).

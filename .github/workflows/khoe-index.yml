@@ -1,29 +1,26 @@
 name: Kharkiv address index
 
-# Keeps khoe-index/index.json in sync with Kharkivoblenergo's "Адреси та черги" PDF (address -> sub-queue).
-# Daily: find the current PDF through the site's file API; if it changed, rebuild, validate and commit the
-# index. If the document can't be found or parsed, the old index stays and one issue is opened with the report.
+# Watches for a new Kharkivoblenergo "Адреси та черги" PDF (address -> sub-queue). The operator's site is
+# behind a Cloudflare check, so the PDF can't be downloaded here: the link is read from the evening
+# outage-schedule posts of the public Telegram channel (t.me/s/kharkivenergy). If the link differs from
+# the one khoe-index/index.json was built from (meta.json), one issue asks to download the PDF by hand and
+# rebuild the index locally (khoe-index/README.md). Same link: nothing to do. No answer / no link: a log
+# line, the run stays green.
 on:
   schedule:
     - cron: "47 4 * * *"          # 06:47 / 07:47 Kyiv time
   workflow_dispatch:
-    inputs:
-      force:
-        description: "Rebuild even if the documents are unchanged"
-        type: boolean
-        default: false
 
 concurrency:
   group: khoe-index
   cancel-in-progress: false
 
 permissions:
-  contents: write
+  contents: read
   issues: write
 
 jobs:
   index:
-    # Self-hosted runner on a Mac in Ukraine: PDFKit and CoreGraphics (macOS) read the table text and rules.
     runs-on: [self-hosted, macOS, svitlo-ua]
     steps:
       - uses: actions/checkout@v7
@@ -31,55 +28,66 @@ jobs:
       - name: Parser tests
         run: python3 -m unittest discover -s khoe-index/tests
 
-      - name: Find and download the current document
+      - name: Find the current document's link in the Telegram channel
         id: source
         run: |
-          URL=$(python3 khoe-index/tools/find_source.py | python3 -c 'import json,sys;print(json.load(sys.stdin)["url"])')
-          curl -sSfL -A "Mozilla/5.0 (SvitloIndexBot)" "$URL" -o "$RUNNER_TEMP/doc.pdf"
-          SHA=$(shasum -a 256 "$RUNNER_TEMP/doc.pdf" | cut -d' ' -f1)
-          OLD=$(python3 -c 'import json;print(json.load(open("khoe-index/meta.json")).get("sha256",""))' 2>/dev/null || true)
-          echo "url=$URL" >> "$GITHUB_OUTPUT"
-          if [ "$SHA" = "$OLD" ] && [ "${{ github.event.inputs.force }}" != "true" ]; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "Document unchanged"
-          else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-            echo "New document: $URL"
+          set +e
+          OUT=$(python3 khoe-index/tools/find_source.py)
+          CODE=$?
+          set -e
+          if [ $CODE -ne 0 ]; then
+            # 2: no link in the channel, 3: channel unreachable (message above). Try again tomorrow.
+            echo "::warning::No document link this time (find_source exit $CODE); the index is unchanged"
+            exit 0
           fi
+          URL=$(echo "$OUT" | python3 -c 'import json,sys;print(json.load(sys.stdin)["url"])')
+          NEW=$(echo "$OUT" | python3 -c 'import json,sys;print(str(json.load(sys.stdin)["new"]).lower())')
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "new=$NEW" >> "$GITHUB_OUTPUT"
+          if [ "$NEW" = "true" ]; then echo "New document: $URL"; else echo "Document unchanged: $URL"; fi
 
-      - name: Build and validate
-        id: build
-        if: steps.source.outputs.changed == 'true'
-        run: |
-          python3 khoe-index/tools/build.py --pdf "$RUNNER_TEMP/doc.pdf" --url "${{ steps.source.outputs.url }}" \
-            --out khoe-index --previous khoe-index/index.json --work "$RUNNER_TEMP/khoe-work"
-
-      - name: Commit the new index
-        if: steps.source.outputs.changed == 'true' && steps.build.outcome == 'success'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add khoe-index/index.json khoe-index/meta.json khoe-index/report.json
-          git diff --cached --quiet && { echo "Nothing to commit"; exit 0; }
-          git commit -m "Kharkiv index: $(python3 -c 'import sys,urllib.parse,os;print(os.path.basename(urllib.parse.unquote(sys.argv[1])))' "${{ steps.source.outputs.url }}")"
-          # The other index workflows also push to main.
-          for i in 1 2 3; do git pull --rebase -q && git push && break; sleep 5; done
-
-      - name: Open an issue when the index can't be updated
-        if: failure()
+      - name: Ask to download the new document by hand
+        if: steps.source.outputs.new == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
+          URL: ${{ steps.source.outputs.url }}
         run: |
-          TITLE="Kharkiv index update failed"
-          gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number' | grep -q . && exit 0
+          TITLE="Kharkiv: download the new address PDF manually"
+          NUM=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$NUM" ]; then
+            if gh issue view "$NUM" --json body,comments --jq '[.body, .comments[].body] | join("\n")' | grep -qF "$URL"; then
+              echo "Issue #$NUM already asks for $URL"
+            else
+              gh issue comment "$NUM" --body "The channel now links another document: $URL"
+            fi
+            exit 0
+          fi
+          NAME=$(python3 -c 'import sys,urllib.parse,os;print(os.path.basename(urllib.parse.unquote(sys.argv[1])))' "$URL")
           {
-            echo "Source: ${{ steps.source.outputs.url || 'not found (file API changed?)' }}"
+            echo "The Telegram channel (https://t.me/s/kharkivenergy) links a document the index wasn't built from:"
             echo
-            echo "The previous index was kept. Report:"
-            echo '```json'
-            cat khoe-index/report.json 2>/dev/null || echo "no report (build crashed, see the run log)"
+            echo "$URL"
+            echo
+            echo "The site is behind a Cloudflare check, so download **$NAME** in a browser and rebuild the index:"
+            echo
             echo '```'
+            echo "python3 khoe-index/tools/build.py --pdf \"PATH/TO/$NAME\" --url \"$URL\" \\"
+            echo "  --out khoe-index --previous khoe-index/index.json --work /tmp/khoe-work"
+            echo '```'
+            echo
+            echo "Then commit khoe-index/index.json, meta.json and report.json. Close this issue after that."
             echo
             echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           } > "$RUNNER_TEMP/issue.md"
           gh issue create --title "$TITLE" --body-file "$RUNNER_TEMP/issue.md"
+
+      - name: Open an issue when the check itself fails
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="Kharkiv index check failed"
+          # `// empty`: on no match jq would print "null", which used to count as an open issue.
+          NUM=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number --jq '.[0].number // empty')
+          [ -n "$NUM" ] && { echo "Issue #$NUM is already open"; exit 0; }
+          gh issue create --title "$TITLE" --body "Parser tests or the channel check failed. Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

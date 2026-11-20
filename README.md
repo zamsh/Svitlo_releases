@@ -13,13 +13,11 @@ This repository holds what the apps and the store listings link to:
 - `docs/` — served by GitHub Pages at https://zamsh.github.io/Svitlo_releases/: the
   [privacy policy](https://zamsh.github.io/Svitlo_releases/privacy), the
   [support page](https://zamsh.github.io/Svitlo_releases/support) and the Android testing page
-- `gpv-index/` — Poltava address → sub-queue index the apps search on the device (rebuilt daily from
-  Poltavaoblenergo's PDF)
-- `roe-index/` — Rivne address → sub-queue index (rebuilt daily from Rivneoblenergo's two PDFs)
-- `khoe-index/` — Kharkiv region address → sub-queue index (rebuilt daily from Kharkivoblenergo's
-  "Адреси та черги" PDF)
+- `gpv-index/`, `roe-index/`, `khoe-index/` — address → sub-queue indexes for Poltava, Rivne and the Kharkiv
+  region, which the apps download and search on the device: `index.json` (rows of the operator's
+  document and the addresses parsed from them), `meta.json` (source document, its hash and validity),
+  `report.json` (validation report of the last build)
 
-The indexes are rebuilt by the workflows in `.github/workflows` on a self-hosted runner in Ukraine (label
-`svitlo-ua`; poe.pl.ua drops connections from abroad). Until version 1.12.0 the iOS app was also sideloaded
-through AltStore from this repository; that channel is closed and its builds are removed (they stay in git
-history).
+The indexes are built in a private repo and committed here; this repo has no workflows of its own. Until
+version 1.12.0 the iOS app was also sideloaded through AltStore from this repository; that channel is closed
+and its builds are removed (they stay in git history).
